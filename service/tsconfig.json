@@ -4,7 +4,8 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "strict": true,         
+    "typeRoots": ["./src/@types", "node_modules/@types"],                             /* Enable all strict type-checking options. */
     // "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied `any` type.. */
     // "strictNullChecks": true,                         /* When type checking, take into account `null` and `undefined`. */
     // "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
