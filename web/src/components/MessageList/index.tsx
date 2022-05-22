@@ -1,39 +1,42 @@
 import styles from './styles.module.scss'
 import logoImg from '../../assets/logo.svg'
+import { useEffect, useState } from 'react'
+import { api } from '../../services/api'
+
+type Message = {
+    id: string
+    text: string
+    user: {
+        name: string
+        avatar_url: string
+    }
+}
 
 export function MessageList(){
+    const [messages, setMessages] = useState<Message[]>([])
+    
+    useEffect(() => {
+        api.get<Message[]>("messages/last3").then(response => {
+            setMessages(response.data)
+        })
+    }, [])
+
     return(
         <div className={styles.MessageListWrapper}>
             <img src={logoImg} alt="Dowhile 20221" />
 
             <ul className={styles.MessageList}>
-                <li className={styles.Message}>
-                    <p className={styles.MessageContent}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, fugit sed at dicta voluptatem, recusandae saepe molestiae quo ipsam excepturi culpa similique id totam quis? Porro dicta hic accusantium eos!s</p>
-                    <div className={styles.MessageUser}>
-                        <div className={styles.UserImage}>
-                            <img src="https://github.com/victorhenriq3.png" alt="" />
+                {messages.map(message => (
+                    <li className={styles.Message} key={message.id}>
+                        <p className={styles.MessageContent}>{message.text}</p>
+                        <div className={styles.MessageUser}>
+                            <div className={styles.UserImage}>
+                                <img src={message.user.avatar_url} alt={message.user.name}/>
+                            </div>
+                            <span>{message.user.name}</span>
                         </div>
-                        <span>Victor Henrique</span>
-                    </div>
-                </li>
-                <li className={styles.Message}>
-                    <p className={styles.MessageContent}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, fugit sed at dicta voluptatem, recusandae saepe molestiae quo ipsam excepturi culpa similique id totam quis? Porro dicta hic accusantium eos!s</p>
-                    <div className={styles.MessageUser}>
-                        <div className={styles.UserImage}>
-                            <img src="https://github.com/victorhenriq3.png" alt="" />
-                        </div>
-                        <span>Victor Henrique</span>
-                    </div>
-                </li>
-                <li className={styles.Message}>
-                    <p className={styles.MessageContent}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, fugit sed at dicta voluptatem, recusandae saepe molestiae quo ipsam excepturi culpa similique id totam quis? Porro dicta hic accusantium eos!s</p>
-                    <div className={styles.MessageUser}>
-                        <div className={styles.UserImage}>
-                            <img src="https://github.com/victorhenriq3.png" alt="" />
-                        </div>
-                        <span>Victor Henrique</span>
-                    </div>
-                </li>
+                    </li>
+                ))}
             </ul>
         </div>
     )
