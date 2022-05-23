@@ -58,7 +58,7 @@ export function AuthProvider({children}: AuthProvider){
 
         if(token){
             api.defaults.headers.common.authorization = `Bearer ${token}`
-            api.get("profile").then(response => {
+            api.get<User>("profile").then(response => {
                 setUser(response.data)
             })
         }
